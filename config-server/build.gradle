@@ -1,0 +1,36 @@
+buildscript {
+	apply from: 'gradle/common/buildScript.gradle'
+    repositories.addAll(repos)
+    
+	dependencies {
+	  classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementPluginVersion}")
+	  classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootGradleVersion}")
+	  classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:${gradleDockerVersion}")
+	}
+}
+
+apply from: 'gradle/common/base.gradle'
+
+dependencies {
+	compile('org.springframework.cloud:spring-cloud-config-server')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+
+docker {
+    name "com.tayfunyasar.dating/${project.name}:${version}"
+    tags 'latest'
+    dockerfile file('src/main/docker/Dockerfile')
+    files tasks.jar.outputs,
+          'src/main/docker/run.sh'
+    copySpec.rename("${project.name}-${version}.jar", "app.jar")
+    buildArgs([BUILD_VERSION: "${version}"])
+    buildArgs([PROJECT: "${project.name}"])
+    labels(['project': "${project.name}"])
+}
