@@ -1,0 +1,18 @@
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://discoveryserver:8761/eureka/
+
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://auth-service:5000/uaa/users/current
+

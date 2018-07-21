@@ -9,12 +9,9 @@ spring:
   application:
     name: config-server
   cloud:
-     config:
-       server:
-           git:
-              uri: configs
-              
-
-logging:
-  level:
-    org.springframework.cloud: 'DEBUG'
+    config:
+      server:
+        native:
+          search-locations: classpath:/configs
+  profiles:
+     active: native
