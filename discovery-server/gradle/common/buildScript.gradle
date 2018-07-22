@@ -1,0 +1,9 @@
+apply from: 'gradle/common/ext.gradle'
+apply from: 'gradle/common/repos.gradle'
+
+ext.buildscriptDeps =  {
+  classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementPluginVersion}")
+  classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootGradleVersion}")
+  classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:${gradleDockerVersion}")		
+}
+
