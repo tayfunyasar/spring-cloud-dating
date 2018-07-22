@@ -5,14 +5,24 @@ logging:
 
 eureka:
   instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+      
+
+---
+spring:
+  profiles: docker
+
+
+eureka:
+  instance:
     prefer-ip-address: true
   client:
-    serviceUrl:
-      defaultZone: http://discoveryserver:8761/eureka/
-
-
-security:
-  oauth2:
-    resource:
-      user-info-uri: http://auth-service:5000/uaa/users/current
-
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/

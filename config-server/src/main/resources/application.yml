@@ -1,9 +1,9 @@
 server:
-  port: 8888
+  port: 7777
   
 management:
   security:
-    enabled: false  
+    enabled: false
                 
 spring:
   application:
