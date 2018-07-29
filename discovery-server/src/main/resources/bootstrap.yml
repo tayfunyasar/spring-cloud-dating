@@ -1,4 +1,4 @@
-# REMOVE
+# TODO REMOVE
 eureka:
   service-url: 
       defaultZone: http://localhost:8761/eureka    
@@ -16,6 +16,7 @@ spring:
   cloud:
     config:
       uri: http://localhost:7777
+      fail-fast: true # http://www.tayfunyasar.com/what-is-fail-fast/
 
 ---
 spring:
