@@ -1,0 +1,7 @@
+ext {
+	springBootGradleVersion = '1.5.8.RELEASE'
+	springCloudVersion = 'Edgware.RELEASE'
+	dependencyManagementPluginVersion = '1.0.4.RELEASE' 
+	gradleDockerVersion = "0.19.2"
+	sonarQubeVersion = "2.5"
+}

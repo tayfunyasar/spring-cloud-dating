@@ -1,0 +1,45 @@
+apply plugin: "jacoco"
+apply plugin: 'org.sonarqube'
+
+sonarqube {
+	properties {
+		property "sonar.projectName", "${project.name}"
+		property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+		property "sonar.java.source", "1.8"
+		   
+	}
+}
+
+sourceSets {  
+    integrationTest {
+        java.srcDir file('src/integration-test/java')
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+task integrationTest(type: Test) {  
+	ignoreFailures = true
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+check.dependsOn integrationTest
+
+jacocoTestReport {
+    reports {
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+    
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: ['tr/**','service/create/**'])
+        })
+    }
+}
+
+test {
+	ignoreFailures = true
+	jacoco {
+        excludes = ['service/create/**']
+    }
+}

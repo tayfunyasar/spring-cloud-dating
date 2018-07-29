@@ -1,35 +1,16 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.15.BUILD-SNAPSHOT'
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
-	}
+	apply from: 'gradle/common/buildScript.gradle'
+    repositories.addAll(repos)
+    
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	  classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementPluginVersion}")
+	  classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootGradleVersion}")
+	  classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:${gradleDockerVersion}")
 	}
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
+apply from: 'gradle/common/base.gradle'
 
-group = 'com.tayfunyasar.dating'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-
-repositories {
-	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
-}
-
-
-ext {
-	springCloudVersion = 'Edgware.BUILD-SNAPSHOT'
-}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -45,4 +26,17 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+
+docker {
+    name "com.tayfunyasar.dating/${project.name}:${version}"
+    tags 'latest'
+    dockerfile file('src/main/docker/Dockerfile')
+    files tasks.jar.outputs,
+          'src/main/docker/run.sh'
+    copySpec.rename("${project.name}-${version}.jar", "app.jar")
+    buildArgs([BUILD_VERSION: "${version}"])
+    buildArgs([PROJECT: "${project.name}"])
+    labels(['project': "${project.name}"])
 }

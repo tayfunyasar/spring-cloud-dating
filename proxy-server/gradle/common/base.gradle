@@ -1,0 +1,15 @@
+apply from: 'gradle/common/ext.gradle'
+apply from: 'gradle/common/repos.gradle'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'com.tayfunyasar.dating'
+version = '0.0.1-SNAPSHOT'
