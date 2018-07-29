@@ -15,7 +15,7 @@ spring:
     name: discovery-server
   cloud:
     config:
-      uri: http://localhost:7777
+      uri: http://localhost:8888
       fail-fast: true # http://www.tayfunyasar.com/what-is-fail-fast/
 
 ---
@@ -23,4 +23,4 @@ spring:
   profiles: docker
   cloud:
     config:
-      uri: http://config-server:7777
+      uri: http://config-server:8888
